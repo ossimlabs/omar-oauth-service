@@ -33,12 +33,16 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+  springCloudVersion = 'Dalston.RELEASE'
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.2.1.RELEASE'
-	compile('org.codehaus.groovy:groovy')
+    compile('org.springframework.cloud:spring-cloud-starter-config')
+    compile('org.codehaus.groovy:groovy')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 }
