@@ -1,15 +1,10 @@
 spring:
+  profiles: production
   application:
     name: omar-oauth-service
   cloud:
     config:
-      enabled: false
-      uri: ${SPRING_CONFIG_URI:http://localhost:8888/omar-config-server}
-    discovery:
-      enabled: false
----
-spring:
-  profiles: production
-  cloud:
-    config:
+      enabled: true
       uri: ${SPRING_CONFIG_URI:http://omar-config-server:8888/omar-config-server}
+    discovery:
+      enabled: true
