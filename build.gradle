@@ -1,0 +1,55 @@
+buildscript {
+	ext {
+      springBootVersion = '1.5.9.RELEASE'
+      baseImage = "omar-base"
+      dockerStatementsOverride = {
+          [
+                          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
+                          """ENV SPRING_CLOUD_CONFIG_ENABLED=true \\
+                          SPRING_CLOUD_DISCOVERY_ENABLED=true """,
+                          "COPY ${project.name}-${buildVersion}-${buildVersionTag}.jar /home/omar",
+                          "EXPOSE 8080",
+                          "WORKDIR /home/omar",
+                          "CMD java -server -Xms256m -Xmx1024m -Djava.awt.headless=true -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -XX:+UnlockExperimentalVMOptions  -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1 -Djava.security.egd=file:/dev/./urandom -jar /home/omar/${project.name}-${buildVersion}-${buildVersionTag}.jar"
+          ]
+      }
+	}
+	if(System.env.OMAR_COMMON_PROPERTIES)
+	{
+		apply from: System.env.OMAR_COMMON_PROPERTIES
+	}
+	repositories {
+		mavenLocal()
+		maven { url "${ossimMavenProxy}" }
+		maven { url "https://repo.grails.org/grails/core" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: "idea"
+apply plugin: "java"
+apply plugin: "maven-publish"
+apply plugin: "maven"
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenLocal()
+	maven { url "${ossimMavenProxy}" }
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.2.1.RELEASE'
+	compile('org.codehaus.groovy:groovy')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.security:spring-security-test')
+}

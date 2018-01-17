@@ -1,0 +1,19 @@
+---
+#server:
+#  contextPath: /omar-spring-oauth
+---
+security:
+  oauth2:
+    client:
+      clientId:  # My Spring Security App ID
+      clientSecret:  # My Spring Security App Secret
+      accessTokenUri: https://graph.facebook.com/oauth/access_token
+      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+      tokenName: oauth_token
+      authenticationScheme: query
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://graph.facebook.com/me
+
+# Note: After a LOT of trial and error this post helped set up the Facebook OAuth stuffs:
+# https://forum.bubble.is/t/solved-fb-login-domain-problem/3267/19
