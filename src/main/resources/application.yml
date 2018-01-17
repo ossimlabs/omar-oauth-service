@@ -17,3 +17,7 @@ security:
 
 # Note: After a LOT of trial and error this post helped set up the Facebook OAuth stuffs:
 # https://forum.bubble.is/t/solved-fb-login-domain-problem/3267/19
+---
+endpoints:
+  env:
+    enabled: true
