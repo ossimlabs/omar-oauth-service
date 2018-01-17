@@ -2,17 +2,6 @@ buildscript {
 	ext {
       springBootVersion = '1.5.9.RELEASE'
       baseImage = "omar-base"
-      dockerStatementsOverride = {
-          [
-                          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-                          """ENV SPRING_CLOUD_CONFIG_ENABLED=true \\
-                          SPRING_CLOUD_DISCOVERY_ENABLED=true """,
-                          "COPY ${project.name}-${buildVersion}-${buildVersionTag}.jar /home/omar",
-                          "EXPOSE 8080",
-                          "WORKDIR /home/omar",
-                          "CMD java -server -Xms256m -Xmx1024m -Djava.awt.headless=true -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -XX:+UnlockExperimentalVMOptions  -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1 -Djava.security.egd=file:/dev/./urandom -jar /home/omar/${project.name}-${buildVersion}-${buildVersionTag}.jar"
-          ]
-      }
 	}
 	if(System.env.OMAR_COMMON_PROPERTIES)
 	{
