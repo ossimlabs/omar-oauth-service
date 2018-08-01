@@ -27,17 +27,17 @@ node("omar-build"){
     }
 
     try {
-      stage ("Publish App Artifactory")
+      stage ("Publish App Nexus")
       {
            withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                            credentialsId: 'artifactoryCredentials',
-                            usernameVariable: 'ARTIFACTORY_USER',
-                            passwordVariable: 'ARTIFACTORY_PASSWORD']])
+                            credentialsId: 'nexusCredentials',
+                            usernameVariable: 'REPOSITORY_MANAGER_USER',
+                            passwordVariable: 'REPOSITORY_MANAGER_PASSWORD']])
             {
                sh """
                 pushd ${workspaceDir}/${appName}/
-                ./gradlew artifactoryPublish
-                ./gradlew jarFileToS3
+                gradle upload
+                gradle jarFileToS3
                 popd
                 """
             }
@@ -52,7 +52,7 @@ node("omar-build"){
                // Run all tasks on the app. This includes pushing to OpenShift and S3.
                sh """
                pushd ${workspaceDir}/${appName}
-               ./gradlew ${GRADLE_TASK}
+               gradle ${GRADLE_TASK}
                popd
                """
            }
