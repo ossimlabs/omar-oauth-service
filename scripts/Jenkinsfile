@@ -37,7 +37,6 @@ node("omar-build"){
                sh """
                 pushd ${workspaceDir}/${appName}/
                 ./gradlew artifactoryPublish
-                ./gradlew jarFileToS3
                 popd
                 """
             }
