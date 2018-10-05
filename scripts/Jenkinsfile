@@ -67,8 +67,10 @@ node("omar-build"){
         echo e.toString()
         currentBuild.result = "FAILED"
     }
-  stage("Clean Workspace"){
-     step([$class: 'WsCleanup'])
+  stage("Clean Workspace")
+  {
+      if ("${CLEAN_WORKSPACE}" == "true")
+        step([$class: 'WsCleanup'])
   }
 }
 
